@@ -7,10 +7,17 @@
 </head>
 <body class="container py-5">
   <h1 class="mb-4">Smart Home Access</h1>
-  {% for label, url in links %}
-    <div class="mb-3">
-      <strong>{{ label }}</strong>: <a href="{{ url }}" target="_blank">{{ url }}</a>
-    </div>
-  {% endfor %}
+  {% if links %}
+    {% for label, url, updated_at in links %}
+      <div class="mb-4 border-bottom pb-2">
+        <h5>{{ label }}</h5>
+        <a href="{{ url }}" target="_blank">{{ url }}</a><br>
+        <small class="text-muted">Cập nhật lúc: {{ updated_at }}</small>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>Chưa có link nào được gửi từ Raspberry Pi.</p>
+  {% endif %}
 </body>
 </html>
+
