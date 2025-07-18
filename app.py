@@ -5,6 +5,7 @@ import os
 
 app = Flask(__name__)
 
+# Khởi tạo database nếu chưa có
 def init_db():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
@@ -18,6 +19,7 @@ def init_db():
     conn.commit()
     conn.close()
 
+# Trang chính hiển thị 2 link mới nhất
 @app.route('/')
 def index():
     conn = sqlite3.connect('database.db')
@@ -32,6 +34,7 @@ def index():
     conn.close()
     return render_template('index.html', links=links)
 
+# API để cập nhật link từ Raspberry Pi
 @app.route('/api/update', methods=['POST'])
 def update_link():
     data = request.get_json()
@@ -49,9 +52,8 @@ def update_link():
     conn.close()
     return {"status": "success", "message": f"Link '{label}' updated"}
 
+# Khởi động Flask app đúng cách cho Render
 if __name__ == '__main__':
     init_db()
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
-
-
